@@ -1,14 +1,18 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = 3000
+const port = 3000;
+const passport = require('passport')
+app.use(passport.initialize()); 
 //import files
 const todoRouter = require('./routes/todo');
 const userRouter = require('./routes/userRoutes')
-const checkAuth = require('./middleware/checkAuth')
+//const checkAuth = require('./middleware/checkAuth')
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.set("view enjine", "ejs")
+app.set("view enjine", "ejs");
+// initialization of passport
 
 //databse connection
 require('./database/mongo')
@@ -20,7 +24,7 @@ app.get('/register', (req, res) => {
     res.render('registration.ejs')
 })
 
-app.get('/index', checkAuth, (req, res) => {
+app.get('/index',  (req, res) => {
     res.render('protect.ejs')
 })
 app.get('/login', (req, res) => {
